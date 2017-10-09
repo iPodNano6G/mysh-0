@@ -4,22 +4,31 @@
 
 void mysh_parse_command(const char* command,
                         int *argc, char*** argv)
-{
-	char* temp = strtok((char*)command, " \n");
-	int i = 0;
-	
-	(*argv) = (char **) malloc(sizeof(char*)*32);
+{	
+	(*argv) = (char **) malloc(sizeof(char*)*4096);
+	for(int i =0; i < 4096; i++) {
+		*(*argv+i) = (char*)malloc(sizeof(char)*4096);
+	}
+	char* test = (char*)malloc(sizeof(char)*4096);
+	char* temp = (char*)malloc(sizeof(char)*4096);
 
-	for(int i =0; i < 32; i++) {
-		(*argv)[i] = (char*)malloc(sizeof(char)*128);
-		strcpy((*argv)[i], "");
+	strcpy(test, command);
+
+	temp = strtok(test, " \n\t");
+	int j = 0;
+	
+	if(temp == NULL) {
+		strcpy(*(*argv+j), "");
+		j++;
 	}
 
 	while (temp != NULL) {
-		strcpy((*argv)[i], temp);
-		i = i + 1;
-		temp = strtok(NULL, " \n");
+		strcpy(*(*argv+j), temp);
+		j = j + 1;
+		temp = strtok(NULL, " \n\t");
 	}
 
-	*argc = i;
+	*argc = j;
+	free(test);
+	free(temp);
 }

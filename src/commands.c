@@ -9,7 +9,7 @@ int do_cd(int argc, char** argv) {
     return -1;
 
   else {
-	tf = chdir((char*)argv[1]);
+	tf = chdir(argv[1]);
 	if(tf == -1) return -1;
 	if(tf ==  0) return  0;
   }
@@ -27,14 +27,14 @@ int do_pwd(int argc, char** argv) {
 }
 
 int validate_cd_argv(int argc, char** argv) {
-  if ((strcmp(argv[1], "")) != 0 && argc == 2)
+  if ((strcmp(argv[0], "cd")) == 0 && argc == 2)
     return 1;
   else
     return 0;
 }
 
 int validate_pwd_argv(int argc, char** argv) {
-  if ((strcmp(argv[1], "")) == 0)
+  if ((strcmp(argv[0], "pwd")) == 0 && argc == 1 )
     return 1;
   else
     return 0;
